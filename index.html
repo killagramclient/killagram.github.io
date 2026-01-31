@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Killagram | Будущее общения уже близко</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #FF3366; /* Яркий акцентный цвет Killagram */
+            --gradient: linear-gradient(135deg, #FF3366 0%, #8B2DFF 100%);
+            --dark: #0A0A0F;
+            --darker: #050508;
+            --light: #F0F2FF;
+            --gray: #1E1E2C;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+        body { background-color: var(--darker); color: var(--light); line-height: 1.6; overflow-x: hidden; }
+
+        /* Header */
+        header {
+            background: rgba(10, 10, 15, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--gray);
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--light);
+            text-decoration: none;
+        }
+        .logo-accent { color: var(--primary); }
+        .beta-badge {
+            background: var(--gradient);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: bold;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            margin-left: 10px;
+            vertical-align: super;
+        }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { color: var(--light); text-decoration: none; font-weight: 500; transition: color 0.3s; }
+        .nav-links a:hover { color: var(--primary); }
+        .mobile-menu-btn { display: none; background: none; border: none; color: var(--light); font-size: 1.5rem; cursor: pointer; }
+
+        /* Hero - Главный экран */
+        .hero {
+            padding: 12rem 5% 6rem;
+            text-align: center;
+            background: radial-gradient(circle at 50% 0%, rgba(255, 51, 102, 0.15) 0%, transparent 50%);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.1;
+        }
+        .hero-subtitle {
+            font-size: 1.4rem;
+            color: #aaa;
+            max-width: 700px;
+            margin: 0 auto 3rem;
+        }
+        .coming-soon {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--gray);
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            margin-top: 2rem;
+            font-size: 1.1rem;
+        }
+        .coming-soon i { color: var(--primary); margin-right: 10px; }
+
+        /* Уникальные функции */
+        .unique-features {
+            padding: 6rem 5%;
+            background: var(--dark);
+        }
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--light);
+        }
+        .section-subtitle {
+            text-align: center;
+            color: #888;
+            max-width: 700px;
+            margin: -2rem auto 4rem;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .feature-card {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 2.5rem;
+            border-radius: 20px;
+            border: 1px solid transparent;
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+        .feature-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-10px);
+            background: rgba(255, 51, 102, 0.05);
+        }
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--gradient);
+        }
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .feature-card h3 { font-size: 1.5rem; margin-bottom: 1rem; color: var(--light); }
+        .feature-card p { color: #aaa; }
+
+        /* Что внутри? (Секция с загадкой) */
+        .teaser {
+            padding: 6rem 5%;
+            text-align: center;
+            background: linear-gradient(180deg, var(--dark) 0%, var(--darker) 100%);
+        }
+        .teaser-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 20px;
+            padding: 4rem;
+            border: 1px solid var(--gray);
+        }
+        .teaser-text {
+            font-size: 1.8rem;
+            font-weight: 300;
+            color: #ddd;
+            margin-bottom: 2rem;
+            font-style: italic;
+        }
+        .secret-list {
+            text-align: left;
+            margin-top: 2rem;
+            color: #bbb;
+        }
+        .secret-list li {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        .secret-list li::before {
+            content: '❖';
+            color: var(--primary);
+            position: absolute;
+            left: 0;
+        }
+
+        /* Форма ожидания (Call to Action) */
+        .waitlist {
+            padding: 6rem 5%;
+            text-align: center;
+            background: var(--dark);
+        }
+        .waitlist-box {
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 3rem;
+            border-radius: 20px;
+            border: 1px solid var(--gray);
+        }
+        .waitlist-form {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .waitlist-input {
+            flex-grow: 1;
+            min-width: 250px;
+            padding: 1rem 1.5rem;
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid var(--gray);
+            border-radius: 50px;
+            color: white;
+            font-size: 1rem;
+        }
+        .waitlist-btn {
+            padding: 1rem 2.5rem;
+            background: var(--gradient);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .waitlist-btn:hover { transform: scale(1.05); }
+
+        /* Футер */
+        footer {
+            background: var(--darker);
+            padding: 4rem 5% 2rem;
+            border-top: 1px solid var(--gray);
+            text-align: center;
+        }
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .social-links a {
+            color: var(--light);
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+        .social-links a:hover { color: var(--primary); }
+        .copyright {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--gray);
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: var(--dark);
+                flex-direction: column;
+                padding: 1rem;
+                gap: 1rem;
+            }
+            .nav-links.active { display: flex; }
+            .mobile-menu-btn { display: block; }
+            .hero h1 { font-size: 2.8rem; }
+            .hero-subtitle { font-size: 1.1rem; }
+            .waitlist-form { flex-direction: column; align-items: center; }
+            .waitlist-input { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Шапка с бейджем "Beta" -->
+    <header>
+        <nav>
+            <a href="#" class="logo">
+                <i class="fas fa-bolt"></i>
+                Killa<span class="logo-accent">gram</span>
+                <span class="beta-badge">BETA В РАЗРАБОТКЕ</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#features">Уникальное</a></li>
+                <li><a href="#vision">Философия</a></li>
+                <li><a href="#waitlist">Узнать первым</a></li>
+            </ul>
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Главный экран -->
+    <section class="hero">
+        <h1>Общение, каким его еще не видели</h1>
+        <p class="hero-subtitle">
+            Killagram — это не просто ещё один мессенджер. Мы переосмысливаем цифровую коммуникацию с нуля, 
+            ставя во главу угла скорость, конфиденциальность и безграничную кастомизацию.
+        </p>
+        <div class="coming-soon">
+            <i class="fas fa-lock"></i> Сейчас проект в активной разработке. Скоро откроем ранний доступ.
+        </div>
+    </section>
+
+    <!-- Уникальные функции -->
+    <section id="features" class="unique-features">
+        <h2 class="section-title">То, чего вы еще не встречали</h2>
+        <p class="section-subtitle">Мы создаём функции, которые изменят ваше представление о мессенджерах</p>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-robot"></i></div>
+                <h3>AI-Ассистент в каждом чате</h3>
+                <p>Умный помощник, который может резюмировать беседы, искать информацию, переводить и даже генерировать ответы, адаптированные под стиль вашего общения.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-layer-group"></i></div>
+                <h3>Слои и режимы работы</h3>
+                <p>Переключайтесь между "рабочим", "личным" и "анонимным" слоями с полностью изолированными чатами, историями и контактами в одном приложении.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-puzzle-piece"></i></div>
+                <h3>Модульные плагины</h3>
+                <p>Устанавливайте плагины из встроенного маркета: игровые движки, инструменты для совместной работы, трекеры привычек прямо в интерфейсе чата.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Что внутри? (Интрига) -->
+    <section id="vision" class="teaser">
+        <div class="teaser-container">
+            <h2 class="section-title">Что мы скрываем за занавесом?</h2>
+            <p class="teaser-text">
+                "В Killagram не будет привычных "чатов". Будет нечто большее."
+            </p>
+            <p style="color: #888; margin-top: 2rem;">
+                Мы полностью перерабатываем архитектуру общения. Вот лишь намёки:
+            </p>
+            <ul class="secret-list">
+                <li><strong>Динамические комнаты</strong> — чаты, которые меняют функционал в зависимости от темы или участников.</li>
+                <li><strong>Гибридные каналы</strong> — нечто среднее между каналом, форумом и интерактивным ботом.</li>
+                <li><strong>Визуальные сценарии</strong> — возможность создавать автоматизацию общения через простой drag-and-drop интерфейс.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Форма для сбора интереса -->
+    <section id="waitlist" class="waitlist">
+        <div class="waitlist-box">
+            <h2 class="section-title">Станьте частью будущего</h2>
+            <p>Первые 1000 ранних последователей получат пожизненную скидку 50% на премиум-функции и возможность влиять на разработку.</p>
+            <form class="waitlist-form" id="earlyAccessForm">
+                <input type="email" class="waitlist-input" placeholder="Ваш лучший email" required>
+                <button type="submit" class="waitlist-btn">Забронировать ранний доступ <i class="fas fa-arrow-right"></i></button>
+            </form>
+            <p style="color: #666; margin-top: 1.5rem; font-size: 0.9rem;">
+                <i class="fas fa-shield-alt"></i> Мы не спамим. Только важные анонсы.
+            </p>
+        </div>
+    </section>
+
+    <!-- Футер -->
+    <footer>
+        <div class="logo" style="justify-content: center; font-size: 1.5rem;">
+            <i class="fas fa-bolt"></i>
+            Killa<span class="logo-accent">gram</span>
+        </div>
+        <p style="color: #888; margin-top: 1rem; max-width: 500px; margin-left: auto; margin-right: auto;">
+            Создаётся с нуля для тех, кто устал от обыденности. Не является аффилированным проектом с Telegram.
+        </p>
+        <div class="social-links">
+            <a href="#"><i class="fab fa-telegram-plane"></i></a>
+            <a href="#"><i class="fab fa-github"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-discord"></i></a>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2024 Killagram Project. Все права на концепцию и реализацию защищены.</p>
+            <p>Сейчас мы пишем код, который изменит всё.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Мобильное меню
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+
+        // Обработка формы (заглушка)
+        document.getElementById('earlyAccessForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input').value;
+            alert(`Спасибо, ${email}! Вы в списке первых. Мы напишем вам, как только будет готов альфа-тест.`);
+            this.reset();
+        });
+
+        // Плавный скролл
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                if(this.getAttribute('href') === '#') return;
+                const target = document.querySelector(this.getAttribute('href'));
+                if(target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    document.querySelector('.nav-links').classList.remove('active');
+                }
+            });
+        });
+
+        // Эффект при скролле для шапки
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            header.style.background = window.scrollY > 50 ? 'rgba(5, 5, 8, 0.98)' : 'rgba(10, 10, 15, 0.95)';
+        });
+    </script>
+</body>
+</html>
